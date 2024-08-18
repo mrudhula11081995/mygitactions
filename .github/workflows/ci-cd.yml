@@ -19,18 +19,21 @@ jobs:
       - name: Set up PHP
         uses: shivammathur/setup-php@v2
         with:
-          php-version: '8.0'  # Specify the PHP version you need
-          extensions: mbstring, intl, xdebug  # Install any necessary PHP extensions
-          ini-values: post_max_size=256M, upload_max_filesize=256M  # Set custom php.ini values
-          coverage: xdebug  # Enable code coverage using Xdebug
+          php-version: '8.0'
 
       - name: Install dependencies
         run: composer install --no-progress --prefer-dist
 
-      - name: Run Login.php
-        run: php web/src/controllers/Login.php
+      - name: List all PHP files
+        run: |
+          dir /s /b web\src\*.php
+        shell: pwsh
 
-      - name: Run Registration.php
-        run: php web/src/controllers/Registration.php
-
-      
+      - name: Run all PHP files
+        run: |
+          $files = Get-ChildItem -Path web\src -Recurse -Filter *.php
+          foreach ($file in $files) {
+              Write-Host "Running $($file.FullName)"
+              php $file.FullName
+          }
+        shell: pwsh
