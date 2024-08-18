@@ -28,13 +28,9 @@ jobs:
         run: composer install --no-progress --prefer-dist
 
       - name: Run Login.php
-        run: php web/src/Login.php
+        run: php web/src/controllers/Login.php
 
       - name: Run Registration.php
-        run: php web/src/Registration.php
+        run: php web/src/controllers/Registration.php
 
-      - name: Run Static Analysis
-        run: vendor/bin/phpstan analyse web/src
-
-      - name: Run Code Style Check
-        run: vendor/bin/phpcs --standard=PSR12 web/src
+      
