@@ -1,0 +1,37 @@
+name: CI/CD Pipeline
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  build:
+    runs-on: windows-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Set up PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.0'  # Specify the PHP version you need
+          extensions: mbstring, intl, xdebug  # Install any necessary PHP extensions
+          ini-values: post_max_size=256M, upload_max_filesize=256M  # Set custom php.ini values
+          coverage: xdebug  # Enable code coverage using Xdebug
+
+      - name: Install dependencies
+        run: composer install --no-progress --prefer-dist
+
+      - name: Run tests
+        run: vendor/bin/phpunit --coverage-text
+
+      - name: Run static analysis (optional)
+        run: vendor/bin/phpstan analyse web/src
+
+      - name: Run code style check (optional)
+        run: vendor/bin/phpcs --standard=PSR12 web/src
