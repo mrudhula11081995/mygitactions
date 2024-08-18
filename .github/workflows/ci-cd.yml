@@ -24,8 +24,5 @@ jobs:
           ini-values: post_max_size=256M, upload_max_filesize=256M  # Set custom php.ini values
           coverage: xdebug  # Enable code coverage using Xdebug
 
-      - name: Run static analysis (optional)
-        run: vendor/bin/phpstan analyse
-
-      - name: Run code style check (optional)
-        run: vendor/bin/phpcs --standard=PSR12 web/src
+      - name: Run Super Linter
+        uses: github/super-linter@v3
