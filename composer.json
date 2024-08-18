@@ -1,0 +1,12 @@
+{
+  "name": "mygitactions",
+  "description": "my git actions workflow",
+  "require": {
+    "php": "^8.0"
+  },
+  "autoload": {
+    "psr-4": {
+      "YourNamespace\\": "web/src/"
+    }
+  }
+}
