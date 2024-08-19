@@ -27,6 +27,24 @@ jobs:
          node-version: '16'
 
       - name: Install dependencies
+        run: npm install
+
+      - name: Run tests
+        run: npm test -- --coverage
+
+      - name: Build project
+        run: npm run build
+
+      - name: Deploy to GitHub Pages
+        if: ${{ github.ref == 'refs/heads/main' }}
+        run: |
+          npm install -g gh-pages
+          npm run build
+          gh-pages -d build
+        env:
+         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Install dependencies
         run: composer install --no-progress --prefer-dist
 
       - name: List all PHP files
